@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '$_IMAGE_URL', '-f', '$_CONTEXT/Dockerfile', '$_CONTEXT']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '$_IMAGE_URL']
+options:
+  dynamicSubstitutions: true
+  logging: CLOUD_LOGGING_ONLY
+images:
+  - '$_IMAGE_URL'
+substitutions:
+  _CONTEXT: '.'
