@@ -84,8 +84,8 @@ Create a Cloud Workstation Cluster (this can take up to 20 minutes):
 ```sh
 gcloud workstations clusters create dev-cluster \
 --region=$REGION \
---network=default \
---subnetwork=default \
+--network="projects/$GCP_PROJECT_ID/global/networks/default" \
+--subnetwork="projects/$GCP_PROJECT_ID/regions/$REGION/subnetworks/default" \
 --project=$GCP_PROJECT_ID
 ```
 
@@ -95,7 +95,6 @@ Create a Cloud Workstation Configuration that uses your custom Image (this can t
 gcloud workstations configs create dev-config \
 --cluster=dev-cluster \
 --region=$REGION \
---project=$GCP_PROJECT_ID \
 --machine-type=e2-standard-4 \
 --boot-disk-size=100 \
 --container-custom-image=europe-west1-docker.pkg.dev/$GCP_PROJECT_ID/dev-tooling/workstation:latest \
@@ -116,4 +115,3 @@ gcloud workstations create my-workstation \
 ## Operational Considerations
 
 Consider implementing [automated container image rebuilds to synchronize base image updates](https://cloud.google.com/workstations/docs/tutorial-automate-container-image-rebuild) and keeping your workstation secure and up to date.
-
