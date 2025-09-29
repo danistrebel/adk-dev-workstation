@@ -142,6 +142,13 @@ gcloud workstations create my-workstation \
 --project=$GCP_PROJECT_ID
 ```
 
+## Launch your Cloud Workstation
+
+In your Google Cloud Console you should now see the Cloud Workstation that you created. 
+Click on the Start / Launch button to access your Cloud Workstation from your browser.
+
+![My Workstation Screenshot](./img/my-workstation.png)
+
 ## Operational Considerations
 
 Consider implementing [automated container image rebuilds to synchronize base image updates](https://cloud.google.com/workstations/docs/tutorial-automate-container-image-rebuild) and keeping your workstation secure and up to date.
