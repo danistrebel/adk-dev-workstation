@@ -9,6 +9,7 @@ cat << EOF > $SETTINGS_PATH/settings.json
     "workbench.colorTheme": "Default Dark+",
     "chat.commandCenter.enabled": false,
     "terminal.integrated.defaultProfile.linux": "zsh",
+    "python.terminal.activateEnvironment": false,
 }
 EOF
 
