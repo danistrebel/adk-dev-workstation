@@ -86,7 +86,7 @@ gcloud workstations clusters create dev-cluster \
 --region=$REGION \
 --network=default \
 --subnetwork=default \
---project=$GCP_PROJECT_ID \
+--project=$GCP_PROJECT_ID
 ```
 
 Create a Cloud Workstation Configuration that uses your custom Image (this can take up to 5 minutes):
