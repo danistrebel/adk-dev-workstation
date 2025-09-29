@@ -79,7 +79,14 @@ gcloud builds submit . \
 
 ## Create a Cloud Workstation Cluster and Configuration
 
-Create a Cloud Workstation Cluster (this can take up to 20 minutes):
+### Workstation Cluster
+
+Create a Cloud Workstation Cluster or re-use an existing Cloud Workstation cluster. Note the following configurations below:
+
+* **`--network`**: Use an existing VPC network or create a dedicated one.
+* **`--subnetwork`**: Use an existing VPC subnet or create a dedicated one in the region that you configured in `$REGION`.
+
+Run the following command to create your Cloud Workstation cluster (this can take up to 20 minutes):
 
 ```sh
 gcloud workstations clusters create dev-cluster \
@@ -89,16 +96,39 @@ gcloud workstations clusters create dev-cluster \
 --project=$GCP_PROJECT_ID
 ```
 
-Create a Cloud Workstation Configuration that uses your custom Image (this can take up to 5 minutes):
+### Workstation Configuration
+
+Note the following default configuration in the command below and adapt as needed:
+
+* The config below creates a Cloud Workstation cluster with **external IP addresses**.
+  * If necessary remove any existing *`compute.vmExternalIpAccess`* organization policy contraints
+  * Or specify the *`--disable-public-ip-addresses`* flag and make sure your VPC Subnet has a Cloud Router and Cloud NAT configured.
+* **`--container-custom-image`**: points to the custom image you created before.
+* **`--cluster`**: points to the cluster you want to re-use or created above.
+* **`--machine-type`** and **`--boot-disk-size`**: Describe the compute and storage resources needed by the developer
+
+Run the following command to create your Cloud Workstation configuration and the associated service account (this can take up to 4 minutes):
 
 ```sh
+gcloud iam service-accounts create workstation \
+    --project=$GCP_PROJECT_ID
+
+gcloud artifacts repositories add-iam-policy-binding dev-tooling \
+    --project=$GCP_PROJECT_ID \
+    --location=$REGION \
+    --member="serviceAccount:workstation@$GCP_PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/artifactregistry.reader"
+
 gcloud workstations configs create dev-config \
 --cluster=dev-cluster \
 --region=$REGION \
 --machine-type=e2-standard-4 \
 --boot-disk-size=100 \
 --container-custom-image=europe-west1-docker.pkg.dev/$GCP_PROJECT_ID/dev-tooling/workstation:latest \
+--service-account=workstation@$GCP_PROJECT_ID.iam.gserviceaccount.com
 --shielded-integrity-monitoring \
+--shielded-secure-boot \
+--shielded-vtpm \
 --project=$GCP_PROJECT_ID
 ```
 
