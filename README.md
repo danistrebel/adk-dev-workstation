@@ -124,8 +124,8 @@ gcloud workstations configs create dev-config \
 --region=$REGION \
 --machine-type=e2-standard-4 \
 --boot-disk-size=100 \
---container-custom-image=europe-west1-docker.pkg.dev/$GCP_PROJECT_ID/dev-tooling/workstation:latest \
---service-account=workstation@$GCP_PROJECT_ID.iam.gserviceaccount.com
+--container-custom-image=$REGION-docker.pkg.dev/$GCP_PROJECT_ID/dev-tooling/workstation:latest \
+--service-account=workstation@$GCP_PROJECT_ID.iam.gserviceaccount.com \
 --shielded-integrity-monitoring \
 --shielded-secure-boot \
 --shielded-vtpm \
